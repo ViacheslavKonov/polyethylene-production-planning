@@ -1,0 +1,56 @@
+# Portainer Standalone / Docker Compose: first synthetic demo, without an optimizer.
+# Application image is published for Linux amd64; both images are pinned by digest.
+# Temporary development access: publishes the demo on all host interfaces, port 8088.
+# No application authentication or HTTPS; use synthetic data only.
+# Set POSTGRES_PASSWORD in Portainer Stack environment variables.
+services:
+  db:
+    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pe_planning_demo
+      POSTGRES_USER: pe_planning_demo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in Portainer}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    networks: [backend]
+    security_opt: [no-new-privileges:true]
+
+  app:
+    image: ghcr.io/viacheslavkonov/polyethylene-production-planning@sha256:dd8afe1adcf4858953adb7822ec50ed90c8fd25727db5750560f5b5fe10864bd
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PORT: '5432'
+      DB_NAME: pe_planning_demo
+      DB_USER: pe_planning_demo
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in Portainer}
+    ports:
+      - '${WEB_BIND_ADDRESS:-0.0.0.0}:${WEB_PORT:-8088}:8000'
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    networks: [backend]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    tmpfs:
+      - /tmp
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgdata:

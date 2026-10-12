@@ -40,6 +40,22 @@ curl -fsS http://127.0.0.1:8088/api/health
 
 Локальные тестовые учётные данные в `compose.dev.yaml` — **строго для разработки**; не используйте этот файл для постоянного/внешнего окружения. Для очистки: `docker compose -f compose.dev.yaml down` (без `-v`, если нужно сохранить БД).
 
+## Временный прототип в Portainer без SSH-туннеля
+
+Для просмотра демонстрационного интерфейса используйте [`compose.prototype.yaml`](compose.prototype.yaml).
+Этот отдельный stack публикует приложение на всех интерфейсах Docker-хоста: `0.0.0.0:8088`.
+Образы приложения и PostgreSQL зафиксированы по digest; сборка не требуется. Образ приложения — для Linux amd64.
+
+В Portainer выберите **Stacks → Add stack → Git repository**, укажите этот репозиторий,
+reference `refs/heads/main` и compose path `compose.prototype.yaml`. Задайте `POSTGRES_PASSWORD`
+в переменных stack и выполните развёртывание. `WEB_PORT` необязателен, по умолчанию — `8088`.
+После запуска откройте `http://<IP-или-имя-Docker-хоста>:8088/` и нажмите **«Сохранить и рассчитать»**.
+Если порт закрыт firewall, разрешите доступ к выбранному TCP-порту со своего компьютера.
+
+Это временный режим разработки на синтетических данных: приложение пока не имеет авторизации или HTTPS.
+Для существующего stack прототипа из Web editor замените Compose обновлённым файлом и нажмите **Update the stack**,
+сохранив прежнее имя stack и пароль БД. Подробности — [`docs/PROTOTYPE.md`](docs/PROTOTYPE.md).
+
 ## Portainer (после публикации образа)
 
 1. Используйте уже опубликованный репозиторий [`ViacheslavKonov/polyethylene-production-planning`](https://github.com/ViacheslavKonov/polyethylene-production-planning), ветка `main`.

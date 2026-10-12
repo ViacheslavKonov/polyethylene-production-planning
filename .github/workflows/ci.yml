@@ -36,3 +36,7 @@ jobs:
           POSTGRES_USER: pe_planning
           POSTGRES_PASSWORD: sample-only-not-a-real-secret
         run: docker compose -f compose.yaml config -q
+      - name: Check prototype compose syntax
+        env:
+          POSTGRES_PASSWORD: sample-only-not-a-real-secret
+        run: docker compose -f compose.prototype.yaml config -q

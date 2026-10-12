@@ -1,5 +1,13 @@
 # Portainer deployment runbook
 
+## Temporary prototype with direct browser access
+
+For the explicitly requested development demo without an SSH tunnel, use
+[`compose.prototype.yaml`](../compose.prototype.yaml), following
+[`PROTOTYPE.md`](PROTOTYPE.md). It publishes HTTP on `0.0.0.0:8088` by default,
+uses synthetic data, and has no application authentication or TLS.
+The production stack described below has different access requirements.
+
 ## Prerequisites
 
 - Linux Docker Engine + Portainer managing a Standalone Docker environment (Compose Stack); outbound access to GitHub and GHCR.
