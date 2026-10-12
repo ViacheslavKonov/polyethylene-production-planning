@@ -1,11 +1,12 @@
 # Portainer Standalone / Docker Compose: first synthetic demo, without an optimizer.
-# Application image is published for Linux amd64; both images are pinned by digest.
+# Both images are public on GHCR for Linux amd64 and pinned by digest.
+# The deployment host does not need Docker Hub access or disabled TLS verification.
 # Temporary development access: publishes the demo on all host interfaces, port 8088.
 # No application authentication or HTTPS; use synthetic data only.
 # Set POSTGRES_PASSWORD in Portainer Stack environment variables.
 services:
   db:
-    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    image: ghcr.io/viacheslavkonov/polyethylene-production-planning@sha256:49c0be96b8c1cc13508a297288dee13b874298bf2ae34a81c392acd9c0f052b7
     restart: unless-stopped
     environment:
       POSTGRES_DB: pe_planning_demo

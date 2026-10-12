@@ -6,6 +6,7 @@ For the explicitly requested development demo without an SSH tunnel, use
 [`compose.prototype.yaml`](../compose.prototype.yaml), following
 [`PROTOTYPE.md`](PROTOTYPE.md). It publishes HTTP on `0.0.0.0:8088` by default,
 uses synthetic data, and has no application authentication or TLS.
+Both prototype images are public on GHCR; the deployment host does not need Docker Hub access.
 The production stack described below has different access requirements.
 
 ## Prerequisites

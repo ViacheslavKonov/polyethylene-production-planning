@@ -44,7 +44,8 @@ curl -fsS http://127.0.0.1:8088/api/health
 
 Для просмотра демонстрационного интерфейса используйте [`compose.prototype.yaml`](compose.prototype.yaml).
 Этот отдельный stack публикует приложение на всех интерфейсах Docker-хоста: `0.0.0.0:8088`.
-Образы приложения и PostgreSQL зафиксированы по digest; сборка не требуется. Образ приложения — для Linux amd64.
+Оба образа загружаются из GHCR и зафиксированы по digest; сборка и доступ к Docker Hub на сервере не требуются.
+Прототип — для Linux amd64.
 
 В Portainer выберите **Stacks → Add stack → Git repository**, укажите этот репозиторий,
 reference `refs/heads/main` и compose path `compose.prototype.yaml`. Задайте `POSTGRES_PASSWORD`
