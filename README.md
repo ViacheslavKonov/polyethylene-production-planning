@@ -42,7 +42,7 @@ curl -fsS http://127.0.0.1:8088/api/health
 
 ## Portainer (после публикации образа)
 
-1. Создайте **публичный GitHub repository** `ViacheslavKonov/polyethylene-production-planning` и загрузите в него содержимое стартового проекта.
+1. Используйте уже опубликованный репозиторий [`ViacheslavKonov/polyethylene-production-planning`](https://github.com/ViacheslavKonov/polyethylene-production-planning), ветка `main`.
 2. GitHub Actions `Publish container` опубликует `ghcr.io/viacheslavkonov/polyethylene-production-planning:main`. Проверьте публичную доступность образа или настройте авторизацию Registry в Portainer.
 3. В Portainer откройте **Stacks → Add stack → Git repository** и укажите URL репозитория, reference `refs/heads/main`, compose path `compose.yaml`.
 4. Добавьте переменные `POSTGRES_DB`, `POSTGRES_USER`, **секретный** `POSTGRES_PASSWORD`, `APP_IMAGE`, `WEB_BIND_ADDRESS`, `WEB_PORT` (см. `.env.example`). **Не коммитьте секреты.**
@@ -51,7 +51,7 @@ curl -fsS http://127.0.0.1:8088/api/health
 
 ## Разработка и Codex
 
-Сначала прочитайте [`AGENTS.md`](AGENTS.md), затем [`docs/WORK_ITEMS.md`](docs/WORK_ITEMS.md) и [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md). Первый PR должен выполнить задание **PE-001**: расширить доменную модель с учётом оборудования и сохранённых технологических ограничений, с миграциями, тестами и трассировкой требований.
+Сначала прочитайте [`AGENTS.md`](AGENTS.md), затем [`docs/WORK_ITEMS.md`](docs/WORK_ITEMS.md) и [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md). Первый PR должен выполнить [задачу PE-001](https://github.com/ViacheslavKonov/polyethylene-production-planning/issues/1): расширить доменную модель с учётом оборудования и сохранённых технологических ограничений, с миграциями, тестами и трассировкой требований.
 
 ```bash
 python -m venv .venv
@@ -79,4 +79,4 @@ ruff check .
 
 Лицензия на повторное использование исходного кода **ещё не выбрана владельцем**. Публичная доступность репозитория сама по себе не означает открытую лицензию.
 
-**Публикация ZIP в GitHub:** пошаговая инструкция для публичного репозитория находится в [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md). Создание аккаунта/репозитория из этого локального архива автоматически не происходит.
+**Исходники опубликованы на GitHub.** Для повторной публикации или форка см. [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md). Очередь задач для Codex также доступна в [GitHub Issues](https://github.com/ViacheslavKonov/polyethylene-production-planning/issues).
