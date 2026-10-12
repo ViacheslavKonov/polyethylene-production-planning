@@ -1,0 +1,33 @@
+name: Publish prototype PostgreSQL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/mirror-postgres.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish verified PostgreSQL image for the prototype
+        env:
+          SOURCE_IMAGE: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+          TARGET_IMAGE: ghcr.io/viacheslavkonov/polyethylene-production-planning:postgres16-721873c34ceb
+        run: |
+          set -eu
+          docker pull --platform linux/amd64 "$SOURCE_IMAGE"
+          test "$(docker image inspect "$SOURCE_IMAGE" --format '{{.Os}}/{{.Architecture}}')" = linux/amd64
+          docker tag "$SOURCE_IMAGE" "$TARGET_IMAGE"
+          docker push "$TARGET_IMAGE"
