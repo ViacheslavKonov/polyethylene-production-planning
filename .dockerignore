@@ -1,0 +1,17 @@
+.git
+.github
+.env
+.env.*
+!.env.example
+__pycache__
+.pytest_cache
+.venv
+*.db
+*.sqlite3
+*.docx
+*.pdf
+*.xlsx
+*.zip
+build/
+dist/
+*.egg-info/
